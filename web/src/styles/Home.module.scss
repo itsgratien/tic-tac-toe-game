@@ -1,0 +1,13 @@
+@import './colors.scss';
+
+.home {
+  min-height: 100vh;
+  main {
+    padding-top: 50px;
+  }
+  @media screen and (min-width: 1824px) {
+    main {
+      padding-top: 150px;
+    }
+  }
+}
