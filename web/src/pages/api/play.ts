@@ -8,7 +8,7 @@ const routes = nc({
 
     return res.status(500).json({ error: 'Internal Server Error' });
   },
-  onNoMatch: (req: NextApiRequest, res: NextApiResponse) => {
+  onNoMatch: (_req: NextApiRequest, res: NextApiResponse) => {
     return res.status(404).json({ error: 'API Not Found' });
   },
 });
@@ -36,9 +36,46 @@ const validateBoard = (req: NextApiRequestExtendT, res: NextApiResponse, next: N
   next();
 };
 
+const selectBox = (emptyBoxes: any) => {
+  const boxTotatIndex = emptyBoxes.length - 1;
+
+  const random = (Math.random() * boxTotatIndex).toFixed();
+
+  const getRandomSelectedBox = emptyBoxes[Number(random)];
+
+  return getRandomSelectedBox;
+};
+
 routes.use(validateBoard).get((req: NextApiRequestExtendT, res) => {
-  console.log(req.board);
-  return res.json({ message: 'tic tac toe', board: req.board });
+  const emptyBoxes = [];
+
+  const board = req.board as string[];
+
+  // get empty boxes
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === ' ') {
+      emptyBoxes.push({ item: board[i], index: i });
+    }
+  }
+
+  if (emptyBoxes.length > 0) {
+    // computer: select one box from those empty boxes
+    const selectedBox = selectBox(emptyBoxes);
+  
+    const newBoard = board
+      .map((item, itemKey) => {
+        if (itemKey === selectedBox.index) {
+          item = 'o';
+        }
+        return item;
+      })
+      .join('');
+
+    return res.json({ board: newBoard });
+  } else {
+    // find the winner or tie
+    return res.json({ message: 'tic tac toe', board: req.board });
+  }
 });
 
 export default routes;
