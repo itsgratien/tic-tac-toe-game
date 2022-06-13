@@ -10,7 +10,7 @@ export const Header = () => {
           <img src="/logo.svg" alt="logo" />
         </li>
         <li>
-          <button type="button" className={classname('bg-yellow text-black font-bold text-14')}>
+          <button type="button" className={classname('relative bg-yellow text-black font-bold text-14')}>
             Restart Game
           </button>
         </li>
