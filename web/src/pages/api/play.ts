@@ -106,9 +106,9 @@ routes.use(validateBoard).get((req: NextApiRequestExtendT, res) => {
         })
         .join('');
 
-      return res.json({ board: newBoard });
+      return res.json({ board: newBoard, checkedEmpty: true });
     } else {
-      return res.json({ board: board.join('') });
+      return res.json({ board: board.join(''), tie: true });
     }
   }
 });
