@@ -1,15 +1,16 @@
 import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
-import { setBoard, setPlaySuccess, defaultBoard } from '@/redux/GameSlice';
+import * as slice from '@/redux/GameSlice';
 import { useAppDispatch } from '@/hooks/Redux';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
 
   const handleRestart = () => {
-    dispatch(setBoard(defaultBoard));
-    dispatch(setPlaySuccess(undefined));
+    dispatch(slice.setBoard(slice.defaultBoard));
+    dispatch(slice.setPlaySuccess(undefined));
+    dispatch(slice.setWinnerCombination([]));
   };
 
   return (

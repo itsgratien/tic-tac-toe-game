@@ -10,9 +10,6 @@ const Home: NextPage = () => {
     <div className={classname('relative bg-fblue w-full', style.home)}>
       <Head>
         <title>Tic Tac Toe Game</title>
-        <meta title="og:author" content="Gratien Tuyishimire" />
-        <meta name="description" content="Created By Gratien" />
-        <link rel="icon" href="/logo.svg" />
       </Head>
       <Header />
       <main>

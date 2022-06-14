@@ -48,9 +48,10 @@ export const Board = () => {
 
   const handleFind = (index: number) => {
     if (selector.combinations && selector.combinations.length > 0) {
-      const find = selector.combinations.find((item) => item === index);
-      if (find) {
-        return '#FAFF00';
+      for (let i = 0; i < selector.combinations.length; i++) {
+        if (selector.combinations[i] === index) {
+          return '#FAFF00';
+        }
       }
     }
     return 'black';
