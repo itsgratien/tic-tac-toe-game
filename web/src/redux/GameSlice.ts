@@ -49,11 +49,6 @@ const gameSlice = createSlice({
       ...state,
       currentPlayer: action.payload,
     }),
-
-    setComputerStart: (state, action: PayloadAction<boolean>) => ({
-      ...state,
-      computerStart: action.payload,
-    }),
   },
 });
 
@@ -69,7 +64,6 @@ const {
   setWinner,
   setWinnerCombination,
   setPlayer,
-  setComputerStart,
 } = gameSlice.actions;
 
 export {
@@ -84,5 +78,4 @@ export {
   defaultBoard,
   setWinnerCombination,
   setPlayer,
-  setComputerStart,
 };

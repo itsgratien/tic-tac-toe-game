@@ -8,7 +8,6 @@ export interface GameInitialState {
   readonly message?: string;
   readonly winnerCombinations?: number[];
   readonly currentPlayer: PlayerEnum;
-  readonly computerStart?: boolean;
 }
 
 export enum PlayerEnum {
