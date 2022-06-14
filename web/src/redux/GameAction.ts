@@ -29,6 +29,7 @@ export const playAction = (value: string) => async (dispatch: Dispatch) => {
         dispatch(slice.setWinner(undefined));
         dispatch(slice.setBoard(slice.defaultBoard));
         dispatch(slice.setPlaySuccess(undefined));
+        dispatch(slice.setError('Game Is Over'));
       }
     },
   });
