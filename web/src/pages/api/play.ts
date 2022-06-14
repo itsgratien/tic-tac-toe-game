@@ -46,35 +46,70 @@ const selectBox = (emptyBoxes: any) => {
   return getRandomSelectedBox;
 };
 
-routes.use(validateBoard).get((req: NextApiRequestExtendT, res) => {
-  const emptyBoxes = [];
+const winningCombinations = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
-  const board = req.board as string[];
+const checkForWinner = (board: string[]) => {
+  let winner;
+  for (let i = 0; i < winningCombinations.length; i++) {
+    const checkForWinnerX = winningCombinations[i].every((item) => board[item] === 'x');
 
-  // get empty boxes
-  for (let i = 0; i < board.length; i++) {
-    if (board[i] === ' ') {
-      emptyBoxes.push({ item: board[i], index: i });
+    if (checkForWinnerX) {
+      winner = 'x';
+    }
+
+    const checkWinnerComputer = winningCombinations[i].every((item) => board[item] === 'o');
+
+    if (checkWinnerComputer) {
+      winner = 'o';
     }
   }
 
-  if (emptyBoxes.length > 0) {
-    // computer: select one box from those empty boxes
-    const selectedBox = selectBox(emptyBoxes);
-  
-    const newBoard = board
-      .map((item, itemKey) => {
-        if (itemKey === selectedBox.index) {
-          item = 'o';
-        }
-        return item;
-      })
-      .join('');
+  return winner;
+};
 
-    return res.json({ board: newBoard });
+routes.use(validateBoard).get((req: NextApiRequestExtendT, res) => {
+  const board = req.board as string[];
+
+  const winner = checkForWinner(board);
+  // check for winner
+  if (winner) {
+    return res.json({ board: board.join(''), winner });
   } else {
-    // find the winner or tie
-    return res.json({ message: 'tic tac toe', board: req.board });
+    // get empty boxes
+    const emptyBoxes = [];
+
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === ' ') {
+        emptyBoxes.push({ item: board[i], index: i });
+      }
+    }
+
+    if (emptyBoxes.length > 0) {
+      // computer: select one box from those empty boxes
+      const selectedBox = selectBox(emptyBoxes);
+
+      const newBoard = board
+        .map((item, itemKey) => {
+          if (itemKey === selectedBox.index) {
+            item = 'o';
+          }
+          return item;
+        })
+        .join('');
+
+      return res.json({ board: newBoard });
+    } else {
+      return res.json({ board: board.join('') });
+    }
   }
 });
 
