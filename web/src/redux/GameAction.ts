@@ -36,10 +36,11 @@ export const playAction = (value: string) => async (dispatch: Dispatch) => {
 };
 
 export const checkWinnerAction = (board: string[]) => async (dispatch: Dispatch) => {
-  const winner = checkForWinner(board);
-  if (winner) {
-    dispatch(slice.setWinner(winner));
-    dispatch(slice.setMessage(`The winner Is Player (${String(winner).toUpperCase()})`));
+  const res = checkForWinner(board);
+  if (res && res.winner && res.value && res.value?.length > 0) {
+    dispatch(slice.setWinner(res.winner));
+    dispatch(slice.setMessage(`The winner Is Player (${String(res.winner).toUpperCase()})`));
     dispatch(slice.setPlaySuccess(undefined));
+    dispatch(slice.setWinnerCombination(res.value));
   }
 };

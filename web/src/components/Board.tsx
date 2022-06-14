@@ -15,6 +15,7 @@ export const Board = () => {
     playSuccess: state.gameReducer.playSuccess,
     tie: state.gameReducer.tie,
     winner: state.gameReducer.winner,
+    combinations: state.gameReducer.winnerCombinations,
   }));
 
   const { board } = selector;
@@ -45,6 +46,16 @@ export const Board = () => {
     dispatch(playAction(values));
   };
 
+  const handleFind = (index: number) => {
+    if (selector.combinations && selector.combinations.length > 0) {
+      const find = selector.combinations.find((item) => item === index);
+      if (find) {
+        return '#FAFF00';
+      }
+    }
+    return 'black';
+  };
+
   React.useEffect(() => {
     if (selector.playSuccess && !selector.playLoading) {
       dispatch(checkWinnerAction(board));
@@ -60,7 +71,11 @@ export const Board = () => {
             <li
               key={itemKey}
               className="bg-black flex items-center justify-center"
-              style={{ cursor: 'pointer' }}
+              style={{
+                cursor: 'pointer',
+                background: handleFind(itemKey),
+                color: handleFind(itemKey) === '#FAFF00' ? 'black' : 'white',
+              }}
               onClick={() => handlePlay(item, itemKey)}
             >
               {item}

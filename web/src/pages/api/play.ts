@@ -44,10 +44,10 @@ const validateBoardMiddleware = (
 routes.use(validateBoardMiddleware).get((req: NextApiRequestExtendT, res) => {
   const board = req.board as string[];
 
-  const winner = checkForWinner(board);
+  const check = checkForWinner(board);
   // check for winner
-  if (winner) {
-    return res.json({ board: board.join(''), winner });
+  if (check && check.winner) {
+    return res.json({ board: board.join(''), winner: check.winner });
   }
 
   // get empty boxes

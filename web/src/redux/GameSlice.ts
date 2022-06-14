@@ -40,6 +40,11 @@ const gameSlice = createSlice({
     }),
 
     setTie: (state, action: PayloadAction<boolean>) => ({ ...state, tie: action.payload }),
+
+    setWinnerCombination: (state, action: PayloadAction<number[]>) => ({
+      ...state,
+      winnerCombinations: action.payload,
+    }),
   },
 });
 
@@ -54,6 +59,7 @@ const {
   setBoard,
   setWinner,
   setTie,
+  setWinnerCombination
 } = gameSlice.actions;
 
 export {
@@ -67,4 +73,5 @@ export {
   setWinner,
   setTie,
   defaultBoard,
+  setWinnerCombination
 };

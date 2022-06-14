@@ -19,6 +19,7 @@ export const ToastMessage = () => {
         dispatch(setError(undefined));
         dispatch(slice.setBoard(slice.defaultBoard));
         dispatch(slice.setPlaySuccess(undefined));
+        dispatch(slice.setWinnerCombination([]));
       }, 1000);
     }
   }, [selector.error, dispatch]);
@@ -30,6 +31,7 @@ export const ToastMessage = () => {
         dispatch(setMessage(undefined));
         dispatch(slice.setBoard(slice.defaultBoard));
         dispatch(slice.setPlaySuccess(undefined));
+        dispatch(slice.setWinnerCombination([]));
       }, 1000);
     }
   }, [dispatch, selector.message]);

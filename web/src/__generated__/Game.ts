@@ -7,6 +7,7 @@ export interface GameInitialState {
   readonly playSuccess?: string;
   readonly error?: string;
   readonly message?: string;
+  readonly winnerCombinations?: number[];
 }
 
 export interface ActiveItemT {

@@ -11,21 +11,27 @@ export const winningCombinations = [
 
 export const checkForWinner = (board: string[]) => {
   let winner;
+  let value;
   for (let i = 0; i < winningCombinations.length; i++) {
     const checkForWinnerX = winningCombinations[i].every((item) => board[item] === 'x');
 
     if (checkForWinnerX) {
       winner = 'x';
+      value = winningCombinations[i];
     }
 
     const checkWinnerComputer = winningCombinations[i].every((item) => board[item] === 'o');
 
     if (checkWinnerComputer) {
       winner = 'o';
+      value = winningCombinations[i];
     }
   }
 
-  return winner;
+  return {
+    winner,
+    value
+  };
 };
 
 export const selectBox = (emptyBoxes: any) => {
