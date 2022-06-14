@@ -25,7 +25,6 @@ export const playAction = (value: string) => async (dispatch: Dispatch) => {
       }
 
       if (res.tie) {
-        dispatch(slice.setTie(res.tie));
         dispatch(slice.setWinner(undefined));
         dispatch(slice.setBoard(slice.defaultBoard));
         dispatch(slice.setPlaySuccess(undefined));
