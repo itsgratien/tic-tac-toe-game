@@ -2,6 +2,7 @@ import React from 'react';
 import { setError, setMessage } from '@/redux/GameSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/Redux';
 import toast, { Toaster } from 'react-hot-toast';
+import * as slice from '@/redux/GameSlice';
 
 export const ToastMessage = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,8 @@ export const ToastMessage = () => {
       toast.error(selector.error);
       setTimeout(() => {
         dispatch(setError(undefined));
+        dispatch(slice.setBoard(slice.defaultBoard));
+        dispatch(slice.setPlaySuccess(undefined));
       }, 1000);
     }
   }, [selector.error, dispatch]);
@@ -25,6 +28,8 @@ export const ToastMessage = () => {
       toast.success(selector.message);
       setTimeout(() => {
         dispatch(setMessage(undefined));
+        dispatch(slice.setBoard(slice.defaultBoard));
+        dispatch(slice.setPlaySuccess(undefined));
       }, 1000);
     }
   }, [dispatch, selector.message]);
