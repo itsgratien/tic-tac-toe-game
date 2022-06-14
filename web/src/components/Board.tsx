@@ -3,9 +3,12 @@ import classname from 'classnames';
 import style from './Style.module.scss';
 import { useAppSelector, useAppDispatch } from '@/hooks/Redux';
 import { playAction } from '@/redux/GameAction';
-import { setPlayLoading, setBoard, setTie, setPlaySuccess, defaultBoard } from '@/redux/GameSlice';
 
 export const Board = () => {
+  const player = 'x';
+
+  // const computer = 'o';
+
   const dispatch = useAppDispatch();
 
   const selector = useAppSelector((state) => ({
@@ -17,10 +20,6 @@ export const Board = () => {
   }));
 
   const { board } = selector;
-
-  const player = 'x';
-
-  const computer = 'o';
 
   const getValue = (values: string[]) => {
     const get = values.map((item) => {
@@ -34,26 +33,19 @@ export const Board = () => {
   };
 
   const handlePlay = (item: string, index: number) => {
-    if (item !== computer && item !== player) {
-      dispatch(setPlayLoading(true));
-      const newBoard = board.map((b, bIndex) => {
-        if (bIndex === index) {
-          b = player;
-        }
-        return b;
-      });
-      dispatch(setBoard(newBoard));
-
-      const values = getValue(newBoard);
-
-      dispatch(playAction(values));
+    if (item.trim() !== '') {
+      return;
     }
+    const newBoard = board.map((b, bIndex) => {
+      if (bIndex === index) {
+        b = player;
+      }
+      return b;
+    });
+    const values = getValue(newBoard);
+
+    dispatch(playAction(values));
   };
-
-  React.useEffect(() => {
-    if (selector.tie) {
-    }
-  }, [selector.tie]);
 
   return (
     <div className={classname('relative', style.board)}>

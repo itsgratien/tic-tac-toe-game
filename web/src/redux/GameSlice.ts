@@ -20,7 +20,7 @@ const gameSlice = createSlice({
     setPlaySuccess: (state, action: PayloadAction<string | undefined>) => ({
       ...state,
       playSuccess: action.payload,
-      board: action.payload ? action.payload.split(''): state.board,
+      board: action.payload ? action.payload.split('') : state.board,
     }),
     setError: (state, action: PayloadAction<string | undefined>) => ({
       ...state,
@@ -45,8 +45,16 @@ const gameSlice = createSlice({
 
 const gameReducer = gameSlice.reducer;
 
-const { setPlayError, setPlayLoading, setPlaySuccess, setError, setMessage, setBoard, setWinner, setTie } =
-  gameSlice.actions;
+const {
+  setPlayError,
+  setPlayLoading,
+  setPlaySuccess,
+  setError,
+  setMessage,
+  setBoard,
+  setWinner,
+  setTie,
+} = gameSlice.actions;
 
 export {
   gameReducer,
@@ -58,5 +66,5 @@ export {
   setBoard,
   setWinner,
   setTie,
-  defaultBoard
+  defaultBoard,
 };

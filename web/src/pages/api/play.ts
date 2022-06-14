@@ -79,38 +79,39 @@ const checkForWinner = (board: string[]) => {
 routes.use(validateBoard).get((req: NextApiRequestExtendT, res) => {
   const board = req.board as string[];
 
+  console.log('req', board.length);
+
   const winner = checkForWinner(board);
   // check for winner
   if (winner) {
     return res.json({ board: board.join(''), winner });
-  } else {
-    // get empty boxes
-    const emptyBoxes = [];
+  }
 
-    for (let i = 0; i < board.length; i++) {
-      if (board[i] === ' ') {
-        emptyBoxes.push({ item: board[i], index: i });
-      }
-    }
+  // get empty boxes
+  const emptyBoxes = [];
 
-    if (emptyBoxes.length > 0) {
-      // computer: select one box from those empty boxes
-      const selectedBox = selectBox(emptyBoxes);
-
-      const newBoard = board
-        .map((item, itemKey) => {
-          if (itemKey === selectedBox.index) {
-            item = 'o';
-          }
-          return item;
-        })
-        .join('');
-
-      return res.json({ board: newBoard, checkedEmpty: true });
-    } else {
-      return res.json({ board: board.join(''), tie: true });
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] === ' ') {
+      emptyBoxes.push({ item: board[i], index: i });
     }
   }
+
+  if (emptyBoxes.length > 0) {
+    // computer: select one box from those empty boxes
+    const selectedBox = selectBox(emptyBoxes);
+
+    const newBoard = board
+      .map((item, itemKey) => {
+        if (itemKey === selectedBox.index) {
+          item = 'o';
+        }
+        return item;
+      })
+      .join('');
+
+    return res.json({ board: newBoard, checkedEmpty: true });
+  }
+  return res.json({ board: board.join(''), tie: true });
 });
 
 export default routes;
