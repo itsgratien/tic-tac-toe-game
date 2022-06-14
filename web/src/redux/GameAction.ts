@@ -2,6 +2,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { apiEndPoints } from '@/utils/ApiEndPoints';
 import { action } from '@/utils/ActionSetup';
 import * as slice from './GameSlice';
+import { checkForWinner } from '@/utils/GameHelper';
 
 export const playAction = (value: string) => async (dispatch: Dispatch) => {
   dispatch(slice.setPlayLoading(true));
@@ -31,4 +32,13 @@ export const playAction = (value: string) => async (dispatch: Dispatch) => {
       }
     },
   });
+};
+
+export const checkWinnerAction = (board: string[]) => async (dispatch: Dispatch) => {
+  const winner = checkForWinner(board);
+  if (winner) {
+    dispatch(slice.setWinner(winner));
+    dispatch(slice.setMessage(`The winner Is Player (${String(winner).toUpperCase()})`));
+    dispatch(slice.setPlaySuccess(undefined));
+  }
 };

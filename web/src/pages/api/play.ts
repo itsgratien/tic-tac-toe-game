@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nc, { NextHandler } from 'next-connect';
 import { NextApiRequestExtendT } from '@/generated/Play';
+import { checkForWinner, selectBox } from '@/utils/GameHelper';
 
 const routes = nc({
   onError: (error, _req: NextApiRequest, res: NextApiResponse) => {
@@ -13,7 +14,11 @@ const routes = nc({
   },
 });
 
-const validateBoard = (req: NextApiRequestExtendT, res: NextApiResponse, next: NextHandler) => {
+const validateBoardMiddleware = (
+  req: NextApiRequestExtendT,
+  res: NextApiResponse,
+  next: NextHandler
+) => {
   const { board } = req.query as any;
 
   const splitBoard = board.split('') as string[];
@@ -36,50 +41,8 @@ const validateBoard = (req: NextApiRequestExtendT, res: NextApiResponse, next: N
   next();
 };
 
-const selectBox = (emptyBoxes: any) => {
-  const boxTotatIndex = emptyBoxes.length - 1;
-
-  const random = (Math.random() * boxTotatIndex).toFixed();
-
-  const getRandomSelectedBox = emptyBoxes[Number(random)];
-
-  return getRandomSelectedBox;
-};
-
-const winningCombinations = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
-
-const checkForWinner = (board: string[]) => {
-  let winner;
-  for (let i = 0; i < winningCombinations.length; i++) {
-    const checkForWinnerX = winningCombinations[i].every((item) => board[item] === 'x');
-
-    if (checkForWinnerX) {
-      winner = 'x';
-    }
-
-    const checkWinnerComputer = winningCombinations[i].every((item) => board[item] === 'o');
-
-    if (checkWinnerComputer) {
-      winner = 'o';
-    }
-  }
-
-  return winner;
-};
-
-routes.use(validateBoard).get((req: NextApiRequestExtendT, res) => {
+routes.use(validateBoardMiddleware).get((req: NextApiRequestExtendT, res) => {
   const board = req.board as string[];
-
-  console.log('req', board.length);
 
   const winner = checkForWinner(board);
   // check for winner

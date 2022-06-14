@@ -2,12 +2,10 @@ import React from 'react';
 import classname from 'classnames';
 import style from './Style.module.scss';
 import { useAppSelector, useAppDispatch } from '@/hooks/Redux';
-import { playAction } from '@/redux/GameAction';
+import { playAction, checkWinnerAction } from '@/redux/GameAction';
 
 export const Board = () => {
   const player = 'x';
-
-  // const computer = 'o';
 
   const dispatch = useAppDispatch();
 
@@ -46,6 +44,12 @@ export const Board = () => {
 
     dispatch(playAction(values));
   };
+
+  React.useEffect(() => {
+    if (selector.playSuccess && !selector.playLoading) {
+      dispatch(checkWinnerAction(board));
+    }
+  }, [selector.playSuccess, selector.playLoading, dispatch, board]);
 
   return (
     <div className={classname('relative', style.board)}>
