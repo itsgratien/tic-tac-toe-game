@@ -3,6 +3,8 @@ import classname from 'classnames';
 import style from './Style.module.scss';
 import { useAppSelector, useAppDispatch } from '@/hooks/Redux';
 import { playAction, checkWinnerAction } from '@/redux/GameAction';
+import { PlayerEnum } from '@/generated/Game';
+import * as slice from '@/redux/GameSlice';
 
 export const Board = () => {
   const player = 'x';
@@ -13,9 +15,9 @@ export const Board = () => {
     board: state.gameReducer.board,
     playLoading: state.gameReducer.playLoading,
     playSuccess: state.gameReducer.playSuccess,
-    tie: state.gameReducer.tie,
     winner: state.gameReducer.winner,
     combinations: state.gameReducer.winnerCombinations,
+    currentPlayer: state.gameReducer.currentPlayer,
   }));
 
   const { board } = selector;
@@ -59,9 +61,19 @@ export const Board = () => {
 
   React.useEffect(() => {
     if (selector.playSuccess && !selector.playLoading) {
-      dispatch(checkWinnerAction(board));
+      dispatch(checkWinnerAction(board, selector.currentPlayer));
     }
-  }, [selector.playSuccess, selector.playLoading, dispatch, board]);
+  }, [selector.playSuccess, selector.playLoading, dispatch, board, selector.currentPlayer]);
+
+  React.useEffect(() => {
+    if (
+      selector.currentPlayer === PlayerEnum.Computer &&
+      selector.combinations &&
+      selector.combinations.length <= 0
+    ) {
+      dispatch(playAction(getValue(slice.defaultBoard)));
+    }
+  }, [selector.currentPlayer, selector.combinations, dispatch]);
 
   return (
     <div className={classname('relative', style.board)}>

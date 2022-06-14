@@ -4,7 +4,7 @@ Tic Tac Toe Game Implementation
 ![tic](/web/public/tic.png)
 
 
-## How to run project locally ?
+## How To Run Project Locally ?
 - Clone repo
 - Open project in your editor (vscode)
 - Open terminal

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GameInitialState } from '@/generated/Game';
+import { GameInitialState, PlayerEnum } from '@/generated/Game';
 
 const defaultBoard = ['', '', '', '', '', '', '', '', ''];
 
 const initialState: GameInitialState = {
   board: defaultBoard,
+  currentPlayer: PlayerEnum.User,
 };
 
 const gameSlice = createSlice({
@@ -43,6 +44,16 @@ const gameSlice = createSlice({
       ...state,
       winnerCombinations: action.payload,
     }),
+
+    setPlayer: (state, action: PayloadAction<PlayerEnum>) => ({
+      ...state,
+      currentPlayer: action.payload,
+    }),
+
+    setComputerStart: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      computerStart: action.payload,
+    }),
   },
 });
 
@@ -57,6 +68,8 @@ const {
   setBoard,
   setWinner,
   setWinnerCombination,
+  setPlayer,
+  setComputerStart,
 } = gameSlice.actions;
 
 export {
@@ -70,4 +83,6 @@ export {
   setWinner,
   defaultBoard,
   setWinnerCombination,
+  setPlayer,
+  setComputerStart,
 };
