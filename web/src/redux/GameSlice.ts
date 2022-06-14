@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GameInitialState } from '@/generated/Game';
 
+const defaultBoard = ['', '', '', '', '', '', '', '', ''];
+
 const initialState: GameInitialState = {
-  board: ['', '', '', '', '', '', '', '', ''],
+  board: defaultBoard,
 };
 
 const gameSlice = createSlice({
@@ -15,19 +17,46 @@ const gameSlice = createSlice({
     }),
     setPlayError: (state, action: PayloadAction<any>) => ({ ...state, playError: action.payload }),
 
-    setPlaySuccess: (state, action: PayloadAction<string>) => ({
+    setPlaySuccess: (state, action: PayloadAction<string | undefined>) => ({
       ...state,
       playSuccess: action.payload,
-      board: action.payload.split(''),
+      board: action.payload ? action.payload.split(''): state.board,
     }),
-    setError: (state, action) => ({ ...state, error: action.payload }),
+    setError: (state, action: PayloadAction<string | undefined>) => ({
+      ...state,
+      error: action.payload,
+    }),
 
-    setMessage: (state, action) => ({ ...state, message: action.payload }),
+    setMessage: (state, action: PayloadAction<string | undefined>) => ({
+      ...state,
+      message: action.payload,
+    }),
+
+    setBoard: (state, action: PayloadAction<string[]>) => ({ ...state, board: action.payload }),
+
+    setWinner: (state, action: PayloadAction<string | undefined>) => ({
+      ...state,
+      winner: action.payload,
+    }),
+
+    setTie: (state, action: PayloadAction<boolean>) => ({ ...state, tie: action.payload }),
   },
 });
 
 const gameReducer = gameSlice.reducer;
 
-const { setPlayError, setPlayLoading, setPlaySuccess, setError, setMessage } = gameSlice.actions;
+const { setPlayError, setPlayLoading, setPlaySuccess, setError, setMessage, setBoard, setWinner, setTie } =
+  gameSlice.actions;
 
-export { gameReducer, setPlayError, setPlayLoading, setPlaySuccess, setError, setMessage };
+export {
+  gameReducer,
+  setPlayError,
+  setPlayLoading,
+  setPlaySuccess,
+  setError,
+  setMessage,
+  setBoard,
+  setWinner,
+  setTie,
+  defaultBoard
+};

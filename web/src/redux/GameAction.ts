@@ -10,17 +10,26 @@ export const playAction = (value: string) => async (dispatch: Dispatch) => {
     method: 'GET',
     url: apiEndPoints.play(value),
     onError: (e) => {
+      console.log('error', e.data);
       dispatch(slice.setPlayLoading(false));
       dispatch(slice.setError(e.data.error || 'Internal server error'));
     },
     onSuccess: (res) => {
       dispatch(slice.setPlayLoading(false));
-      dispatch(slice.setPlaySuccess(res.data.board));
+      dispatch(slice.setPlaySuccess(res.board));
 
-      if (res.data.winner) {
+      if (res.winner) {
         dispatch(
           slice.setMessage(`The winner is ${res.data.winner === 'x' ? 'Player X' : 'Computer'}`)
         );
+        dispatch(slice.setWinner(res.winner));
+      }
+
+      if (res.tie) {
+        dispatch(slice.setTie(res.tie));
+        dispatch(slice.setWinner(undefined));
+        dispatch(slice.setBoard(slice.defaultBoard));
+        dispatch(slice.setPlaySuccess(undefined));
       }
     },
   });

@@ -8,5 +8,4 @@ export interface ActionSetupT {
   contentType?: 'application/json' | 'multipart/form-data';
   responseType?: ResponseType;
   data?: any;
-  onProgress?: (value: number) => void;
 }

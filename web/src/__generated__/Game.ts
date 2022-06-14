@@ -8,3 +8,8 @@ export interface GameInitialState {
   readonly error?: string;
   readonly message?: string;
 }
+
+export interface ActiveItemT {
+  index: number;
+  item: string;
+}

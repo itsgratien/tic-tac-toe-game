@@ -9,7 +9,6 @@ export const action = async ({
   responseType,
   url,
   data,
-  onProgress,
 }: ActionSetupT) => {
   try {
     const res = await axios()({
@@ -17,13 +16,7 @@ export const action = async ({
       responseType,
       headers: { ContentType: contentType || 'application/json' },
       url,
-      data,
-      onUploadProgress: (event) => {
-        const percentage = Math.round((event.loaded * 100) / event.total);
-        if (onProgress) {
-          onProgress(percentage);
-        }
-      },
+      data
     });
     return onSuccess(res.data);
   } catch (error: any) {
