@@ -20,6 +20,7 @@ export const playAction = (value: string) => async (dispatch: Dispatch) => {
       dispatch(slice.setPlaySuccess(res.board));
       if (res.winner) {
         dispatch(slice.setWinner(res.winner));
+        dispatch(slice.setMessage(`The winner is ${res.winner}`));
       }
 
       if (res.tie) {
